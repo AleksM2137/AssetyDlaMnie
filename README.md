@@ -225,6 +225,7 @@ i
                             wycentrowana_eksplozja = []# centrójemy eksplozje
                             for linja in eksplozja:
                                 wycentrowana_linja = linja.center(width)
+                                wycentrowana_linja = wycentrowana_linja.center(height)
                                 wycentrowana_eksplozja.append(wycentrowana_linja)
                             self.klatki.append("\n".join(wycentrowana_eksplozja))
                 
