@@ -250,3 +250,22 @@ i
                 
                 if __name__ == "__main__":
                     Screen.wrapper(graj_intro)
+i
+
+                def check_screen_size(screen):
+                    min_width = 40
+                    min_height = 165
+                    w, h = screen.dimensions
+                    while w < min_width or h < min_height:
+                        screen.clear_buffer(0,2,0)
+                        screen.print_at(
+                            f"Za mały ekran {w},{h} - wymagane minimum {min_width},{min_height}",
+                            0, 0
+                        )
+                        screen.refresh()
+                        event = screen.get_event()
+                        if screen.has_resized():
+                            w, h = screen.dimensions
+                        if event and hasattr(event, 'key_code') and event.key_code == 27:  # ESC
+                            return False
+                    return True
