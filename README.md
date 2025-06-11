@@ -178,3 +178,74 @@ i
         if __name__ == "__main__":
             Screen.wrapper(graj_intro)
 
+i
+
+                from asciimatics.effects import Print
+                from asciimatics.renderers import StaticRenderer
+                from asciimatics.scene import Scene
+                from asciimatics.screen import Screen
+                
+                
+                class IntroRenderer(StaticRenderer):
+                    def __init__(self, height,width):
+                        self.klatki = []
+                        klatka = []
+                        klatka.extend([""] * (height-8))
+                        klatka.append("‾"*width)
+                        self.klatki.append("\n".join(klatka))
+                
+                        for i in range(height-15):
+                            klatka = []
+                            klatka.extend([""] * (i))  # Dodajemy puste linie na górze, im większe i, tym niżej ludzik
+                            klatka.extend([
+                                " "*(width//2)+"           ",
+                                " "*(width//2)+"  /‾‾‾‾‾‾\\ ",
+                                " "*(width//2)+"  | O  O | ",
+                                " "*(width//2)+"  | ---- | ",
+                                " "*(width//2)+"  \\______/ ",
+                                " "*(width//2)+"  _|_||_|_ ",
+                                " "*(width//2)+" | |_||_| |",
+                                " "*(width//2)+"  ‾| || |‾ ",
+                                " "*(width//2)+"    ‾  ‾    "
+                            ])
+                            self.klatki.append("\n".join(klatka))
+                
+                        klatka = []
+                        klatka.extend([""] * (height-8))
+                        klatka.append("‾"*(width//2+1)+"‾\\______/‾"+"‾"*(width//2))
+                        self.klatki.append("\n".join(klatka))
+                        eksplozja = [# ekplozja
+                            "   ╲   /   ",
+                            " ──  *  ── ",
+                            "   /   ╲   ",
+                            " START GRY!"
+                        ]
+                
+                        for _ in range(15):
+                            wycentrowana_eksplozja = []# centrójemy eksplozje
+                            for linja in eksplozja:
+                                wycentrowana_linja = linja.center(width)
+                                wycentrowana_eksplozja.append(wycentrowana_linja)
+                            self.klatki.append("\n".join(wycentrowana_eksplozja))
+                
+                        super().__init__(self.klatki)#za pomocą renderera renderujemy
+                
+                
+                def graj_intro(screen):
+                    renderer = IntroRenderer(screen.height,screen.width)
+                    effects = [
+                        Print(screen,
+                                renderer,
+                                x=0,
+                                y=0,
+                                clear=True,
+                                transparent=False,
+                                speed=1,
+                                colour=Screen.COLOUR_WHITE)
+                    ]
+                
+                    screen.play([Scene(effects, duration=len(renderer.klatki))], repeat=False)
+                
+                
+                if __name__ == "__main__":
+                    Screen.wrapper(graj_intro)
